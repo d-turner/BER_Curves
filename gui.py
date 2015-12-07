@@ -55,13 +55,12 @@ class GUI:
 		self.err_input = Tk.Entry(root, width=10, textvariable=self.error_bits).grid(row=row, sticky=W)
 		row += 1
 		# Noise Type selection box
-		snr = Tk.StringVar()
-		snr.set("Default SNR")
-		snr_step = Tk.OptionMenu(root, snr, "one", "two", "three", "etc")
-		snr_step.grid(row=row, sticky=W)
+		self.snr = Tk.StringVar()
+		self.snr.set("Default SNR")
+		self.snr_step = Tk.OptionMenu(root, snr, "one", "two", "three", "etc").grid(row=row, sticky=W)
 		row += 1
 		# Button to run program
-		run = Tk.Button(root, text="Run", command=self.run_program).grid(row=row, sticky=W)
+		self.run = Tk.Button(root, text="Run", command=self.run_program).grid(row=row, sticky=W)
 		
 root = Tk.Tk()
 a = GUI(root)
