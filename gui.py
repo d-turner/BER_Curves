@@ -17,28 +17,10 @@ class GUI:
 	def __init__(self, master):
 		self.root = master
 		self.w, self.h = self.root.winfo_screenwidth(), self.root.winfo_screenheight()
-		row = 0
 		# Title
 		self.root.wm_title("BER Curves")
 		self.root.geometry("%dx%d+0+0" % (self.w, self.h))
-		# Setion Title
-		simulate_label = Tk.Label(root, text="Simulation Control").grid(row=row, column=0)
-		row += 1
-		# Error bits inupt
-		self.lb1 = Tk.Label(root, text="Error Bits").grid(row=row, sticky=W)
-		row += 1
-		self.error_bits = Tk.IntVar()
-		self.error_bits.set(0)
-		self.err_input = Tk.Entry(root, width=10, textvariable=self.error_bits).grid(row=row, sticky=W)
-		row += 1
-		# Noise Type selection box
-		snr = Tk.StringVar()
-		snr.set("Default SNR")
-		snr_step = Tk.OptionMenu(root, snr, "one", "two", "three", "etc")
-		snr_step.grid(row=row, sticky=W)
-		row += 1
-		# Button to run program
-		run = Tk.Button(root, text="Run", command=self.run_program).grid(row=row, sticky=W)
+		self.setup_simulation_control()
 
 	def run_program(self):
 		self.graph()
@@ -58,6 +40,27 @@ class GUI:
 		canvas.show()
 		canvas.get_tk_widget().grid(row=5)
 		a.plot(t, s)
+		
+	def setup_simulation_contol(self):
+		row = 0
+		# Setion Title
+		simulate_label = Tk.Label(root, text="Simulation Control").grid(row=row, column=0)
+		row += 1
+		# Error bits inupt
+		self.lb1 = Tk.Label(root, text="Error Bits").grid(row=row, sticky=W)
+		row += 1
+		self.error_bits = Tk.IntVar()
+		self.error_bits.set(0)
+		self.err_input = Tk.Entry(root, width=10, textvariable=self.error_bits).grid(row=row, sticky=W)
+		row += 1
+		# Noise Type selection box
+		snr = Tk.StringVar()
+		snr.set("Default SNR")
+		snr_step = Tk.OptionMenu(root, snr, "one", "two", "three", "etc")
+		snr_step.grid(row=row, sticky=W)
+		row += 1
+		# Button to run program
+		run = Tk.Button(root, text="Run", command=self.run_program).grid(row=row, sticky=W)
 		
 root = Tk.Tk()
 a = GUI(root)
