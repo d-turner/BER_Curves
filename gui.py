@@ -32,6 +32,7 @@ class GUI:
 		#output5 = SNR(i.get())
 			
 	def graph(self):
+		# simple graph for place holder
 		f = Figure(figsize=(5, 4), dpi=100)
 		a = f.add_subplot(111)
 		t = (1, 2, 3, 4)
