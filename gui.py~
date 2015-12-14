@@ -79,7 +79,6 @@ class GUI:
 		# Button to run program
 		run = Tk.Button(root, text="Run", command=self.run_program).grid(row=row, sticky=W)
 		# Channel Noise
-		row = 0 # Just reset so it'd be at the top of the second column
 		channel_noise_label = Tk.Label(root, text = "Channel Noise").grid(row = row, column = 1)
 		row += 1
 		# Gaussian Checkbox
