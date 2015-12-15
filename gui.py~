@@ -54,14 +54,16 @@ class GUI:
 		a.plot(t, s)
 		
 	def setup_bit_sequence(self):
+		# Bit Sequences		
 		row = 0
-		# Bit Sequences
-		bit_sequence_label = Tk.Label(root, text = "Bit Sequences", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 50)
+		bit_sequence_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady=15, padx=10)
+		bit_sequence_frame.grid(row = 0, column = 0, rowspan = 3, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		bit_sequence_label = Tk.Label(bit_sequence_frame, text = "Bit Sequences", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 50)
 		row += 1
 		# Sequence Selection
 		self.bit_sequence = Tk.StringVar()
 		self.bit_sequence.set("Default Sequence")
-		bit_sequence_menu = Tk.OptionMenu(root, self.bit_sequence, "Sequence 1", "Sequence 2", "Sequence 3", "Other").grid(row = row, columnspan = 2)
+		bit_sequence_menu = Tk.OptionMenu(bit_sequence_frame, self.bit_sequence, "Sequence 1", "Sequence 2", "Sequence 3", "Other").grid(row = row, columnspan = 2)
 
 	def setup_simulation_control(self):
 		row = 3
@@ -85,26 +87,28 @@ class GUI:
 
 	def	setup_channel_noise(self):
 		# Channel Noise
-		row = 0 
-		channel_noise_label = Tk.Label(root, text = "Channel Noise", font=("Helvetica", 14)).grid(row = row, column = 2, columnspan = 2, pady = 15, padx = 50)
+		row = 0
+		channel_noise_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
+		channel_noise_frame.grid(row = 0, column = 2, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		channel_noise_label = Tk.Label(channel_noise_frame, text = "Channel Noise", font=("Helvetica", 14)).grid(row = row, column = 2, columnspan = 2, pady = 15, padx = 50)
 		row += 1
 		# Gaussian Checkbox
 		self.gaussian = Tk.IntVar()
 		self.gaussian.set(0)
-		gaussian_checkbox = Tk.Checkbutton(root, text="  Gaussian", font=("Helvetica", 12), variable = self.gaussian).grid(row = row, column = 2, columnspan = 2)
+		gaussian_checkbox = Tk.Checkbutton(channel_noise_frame, text="  Gaussian", font=("Helvetica", 12), variable = self.gaussian).grid(row = row, column = 2, columnspan = 2)
 		row += 1
 		# Burst Noise Input
-		burst_noise_label = Tk.Label(root, text = "Burst", font=("Helvetica", 12)).grid(row = row, column = 2, columnspan = 2, pady = 15)
+		burst_noise_label = Tk.Label(channel_noise_frame, text = "Burst", font=("Helvetica", 12)).grid(row = row, column = 2, columnspan = 2, pady = 15)
 		row += 1
 		self.burst_frequency = Tk.IntVar()
 		self.burst_frequency.set(0)
 		self.burst_error = Tk.IntVar()
 		self.burst_error.set(0)
-		burst_frequency_label = Tk.Label(root, text = "Frequency").grid(row = row, column = 2)
-		burst_error_label = Tk.Label(root, text = "Error").grid(row = row, column = 3)
+		burst_frequency_label = Tk.Label(channel_noise_frame, text = "Frequency").grid(row = row, column = 2)
+		burst_error_label = Tk.Label(channel_noise_frame, text = "Error").grid(row = row, column = 3)
 		row+=1
-		burst_frequency_input = Tk.Entry(root, width=10, textvariable=self.burst_frequency).grid(row = row, column = 2)
-		burst_error_input = Tk.Entry(root, width=10, textvariable=self.burst_error).grid(row = row, column = 3)
+		burst_frequency_input = Tk.Entry(channel_noise_frame, width=10, textvariable=self.burst_frequency).grid(row = row, column = 2)
+		burst_error_input = Tk.Entry(channel_noise_frame, width=10, textvariable=self.burst_error).grid(row = row, column = 3)
 		
 root = Tk.Tk()
 a = GUI(root)
