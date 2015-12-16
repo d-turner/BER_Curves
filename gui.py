@@ -1,6 +1,7 @@
 import matplotlib
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 import sys
 if sys.version_info[0] < 3:
     import Tkinter as Tk
@@ -29,6 +30,7 @@ class GUI:
 		self.setup_simulation_control()
 		# Variables required from Channel Noise
 		self.gaussian = None # Gaussian Noise Variable (Yes/No)
+		self.burst = None
 		self.burst_frequency = None # Burst Frequency Variable
 		self.burst_error = None # Burst Error Variable
 		self.setup_channel_noise()
@@ -36,6 +38,9 @@ class GUI:
 		self.modtype = None # Modulation type variable
 		self.codetype = None # Line Coding variable
 		self.setup_modulation_control()
+		self.plotBERcurve()
+		self.calculate = None
+		self.hold = None
 
 	def run_program(self):
 		self.graph()
@@ -101,8 +106,13 @@ class GUI:
 		self.gaussian.set(0)
 		gaussian_checkbox = Tk.Checkbutton(channel_noise_frame, text="  Gaussian", font=("Helvetica", 12), variable = self.gaussian).grid(row = row, column = 2, columnspan = 2)
 		row += 1
-		# Burst Noise Input
-		burst_noise_label = Tk.Label(channel_noise_frame, text = "Burst", font=("Helvetica", 12)).grid(row = row, column = 2, columnspan = 2, pady = 15)
+
+		# Burst Chekbox
+		self.gaussian = Tk.IntVar()
+		self.gaussian.set(0)
+		gaussian_checkbox = Tk.Checkbutton(channel_noise_frame, text="  Burst", font=("Helvetica", 12), variable = self.burst).grid(row = row, column = 2, columnspan = 2)
+		row += 1
+
 		row += 1
 		self.burst_frequency = Tk.IntVar()
 		self.burst_frequency.set(0)
@@ -147,6 +157,50 @@ class GUI:
 		self.codetype = Tk.StringVar()
 		self.codetype.set ("Interleaver")
 		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 15)
+
+	def savePlot(self, figure):
+		figure.savefig("/home/pavel/Desktop/plot.png")
+		print "Plot Saved"
+
+	def clearPlot(self,f):
+		f.clf()
+		f.canvas.draw()
+		print "Plot Cleared"
+
+
+	def plotBERcurve(self):
+		row = 5
+		berCurveFrame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
+		berCurveFrame.grid(row = row, column = 20, rowspan = 10, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+
+		self.calculate = Tk.IntVar()
+		self.calculate.set(0)
+		calculate = Tk.Checkbutton(berCurveFrame, text="  Calculate", font=("Helvetica", 12), variable = self.calculate).grid(row = row, column = 2, columnspan = 2)
+		row += 1
+
+		self.hold = Tk.IntVar()
+		self.hold.set(0)
+		hold = Tk.Checkbutton(berCurveFrame, text="          Hold", font=("Helvetica", 12), variable = self.hold).grid(row = row, column = 2, columnspan = 2)
+		row += 2
+
+		f = Figure(figsize=(5, 5), dpi=100)
+		a = f.add_subplot(111)
+		t = (1, 2, 3, 4)
+		s = (1, 2, 3, 4)
+		canvas = FigureCanvasTkAgg(f, root)
+		canvas.show()
+		canvas.get_tk_widget().grid(row=5,column = 6,rowspan = 10, columnspan = 10, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		a.plot(t, s)
+		a.set_title('BER Curve')
+		a.set_xlabel('Eb/Nq')
+		a.set_ylabel('BER')
+
+		save = Tk.Button(root, text="Save", command = lambda: self.savePlot(f)).grid(row=row, column = 21, sticky=W)
+		row+=1
+
+		clear = Tk.Button(root, text="Clear", command = lambda: self.clearPlot(f)).grid(row=row, column = 21, sticky=W)	
+
+  
 
 		
 root = Tk.Tk()
