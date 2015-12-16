@@ -1,6 +1,6 @@
 import matplotlib
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+#from matplotlib.figure import Figure
+#from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import sys
 if sys.version_info[0] < 3:
     import Tkinter as Tk
@@ -32,6 +32,10 @@ class GUI:
 		self.burst_frequency = None # Burst Frequency Variable
 		self.burst_error = None # Burst Error Variable
 		self.setup_channel_noise()
+		# Variable required from Modulation
+		self.modtype = None # Modulation type variable
+		self.codetype = None # Line Coding variable
+		self.setup_modulation_control()
 
 	def run_program(self):
 		self.graph()
@@ -63,10 +67,10 @@ class GUI:
 		# Sequence Selection
 		self.bit_sequence = Tk.StringVar()
 		self.bit_sequence.set("Default Sequence")
-		bit_sequence_menu = Tk.OptionMenu(bit_sequence_frame, self.bit_sequence, "Sequence 1", "Sequence 2", "Sequence 3", "Other").grid(row = row, columnspan = 2)
+		bit_sequence_menu = Tk.OptionMenu(bit_sequence_frame, self.bit_sequence, "Sequence 1", "Sequence 2", "Sequence 3", "Other").grid(row = row, columnspan = 2, pady = 15)
 
 	def setup_simulation_control(self):
-		row = 3
+		row = 7
 		# Section Title
 		simulate_label = Tk.Label(root, text="Simulation Control").grid(row=row, column=0)
 		row += 1
@@ -87,9 +91,9 @@ class GUI:
 
 	def	setup_channel_noise(self):
 		# Channel Noise
-		row = 0
+		row = 5
 		channel_noise_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
-		channel_noise_frame.grid(row = 0, column = 2, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		channel_noise_frame.grid(row = row, column = 2, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		channel_noise_label = Tk.Label(channel_noise_frame, text = "Channel Noise", font=("Helvetica", 14)).grid(row = row, column = 2, columnspan = 2, pady = 15, padx = 50)
 		row += 1
 		# Gaussian Checkbox
@@ -109,6 +113,38 @@ class GUI:
 		row+=1
 		burst_frequency_input = Tk.Entry(channel_noise_frame, width=10, textvariable=self.burst_frequency).grid(row = row, column = 2)
 		burst_error_input = Tk.Entry(channel_noise_frame, width=10, textvariable=self.burst_error).grid(row = row, column = 3)
+
+
+	def setup_modulation_control(self):
+		row = 3
+		# Section Title
+		modulation_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
+		modulation_frame.grid(row = row, column = 0, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		modulation_label = Tk.Label(modulation_frame, text="Modulation", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 50)
+		row += 1
+		# Modulation Type Dropdown
+		self.modtype = Tk.StringVar()
+		self.modtype.set ("Modulation type")
+		modtype_menu = Tk.OptionMenu(modulation_frame, self.modtype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 15)
+		
+		# Section Title
+		row = 0
+		coding_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
+		coding_frame.grid(row = row, column = 2, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		coding_label = Tk.Label(coding_frame,text="Coding", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 80)
+		row += 1
+		self.codetype = Tk.StringVar()
+		self.codetype.set ("Line Coding")
+		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 15)
+		row += 1
+		self.codetype = Tk.StringVar()
+		self.codetype.set ("Fec")
+		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 15)
+		row += 1
+		self.codetype = Tk.StringVar()
+		self.codetype.set ("Interleaver")
+		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 15)
+
 		
 root = Tk.Tk()
 a = GUI(root)
