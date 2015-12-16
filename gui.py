@@ -60,14 +60,14 @@ class GUI:
 		s = (1, 2, 3, 4)
 		canvas = FigureCanvasTkAgg(f, root)
 		canvas.show()
-		canvas.get_tk_widget().grid(row=5)
+		canvas.get_tk_widget().grid(row=0,column = 25,rowspan = 5, columnspan = 10, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		a.plot(t, s)
 		
 	def setup_bit_sequence(self):
 		# Bit Sequences		
 		row = 0
 		bit_sequence_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady=15, padx=10)
-		bit_sequence_frame.grid(row = 0, column = 0, rowspan = 3, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		bit_sequence_frame.grid(row = 0, column = 0, rowspan = 2, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		bit_sequence_label = Tk.Label(bit_sequence_frame, text = "Bit Sequences", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 50)
 		row += 1
 		# Sequence Selection
@@ -76,28 +76,29 @@ class GUI:
 		bit_sequence_menu = Tk.OptionMenu(bit_sequence_frame, self.bit_sequence, "Sequence 1", "Sequence 2", "Sequence 3", "Other").grid(row = row, columnspan = 2, pady = 15)
 
 	def setup_simulation_control(self):
-		row = 7
-		# Section Title
-		simulate_label = Tk.Label(root, text="Simulation Control").grid(row=row, column=0)
+		row = 4
+		sim_control_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady=15, padx=10)
+		sim_control_frame.grid(row = 4, column = 0, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		simulate_label = Tk.Label(sim_control_frame, text="Simulation Control", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 50)
 		row += 1
 		# Error bits inupt
-		lb1 = Tk.Label(root, text="Error Bits").grid(row=row, sticky=W)
+		lb1 = Tk.Label(sim_control_frame, text="Error Bits").grid(row=row, pady=5)
 		row += 1
 		self.error_bits = Tk.IntVar()
 		self.error_bits.set(0)
-		err_input = Tk.Entry(root, width=10, textvariable=self.error_bits).grid(row=row, sticky=W)
+		err_input = Tk.Entry(sim_control_frame, width=10, textvariable=self.error_bits).grid(row=row, pady=5)
 		row += 1
 		# Noise Type selection box
 		self.snr = Tk.StringVar()
 		self.snr.set("Default SNR")
-		snr_menu = Tk.OptionMenu(root, self.snr, "one", "two", "three", "etc").grid(row=row, sticky=W)
+		snr_menu = Tk.OptionMenu(sim_control_frame, self.snr, "one", "two", "three", "etc").grid(row=row, pady=5)
 		row += 1
 		# Button to run program
-		run = Tk.Button(root, text="Run", command=self.run_program).grid(row=row, sticky=W)
+		run = Tk.Button(sim_control_frame, text="Run", command=self.run_program).grid(row=row, pady=5)
 
 	def	setup_channel_noise(self):
 		# Channel Noise
-		row = 5
+		row = 4
 		channel_noise_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
 		channel_noise_frame.grid(row = row, column = 2, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		channel_noise_label = Tk.Label(channel_noise_frame, text = "Channel Noise", font=("Helvetica", 14)).grid(row = row, column = 2, columnspan = 2, pady = 15, padx = 50)
@@ -127,10 +128,10 @@ class GUI:
 
 
 	def setup_modulation_control(self):
-		row = 3
+		row = 2
 		# Section Title
 		modulation_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
-		modulation_frame.grid(row = row, column = 0, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		modulation_frame.grid(row = row, column = 0, rowspan = 2, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		modulation_label = Tk.Label(modulation_frame, text="Modulation", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 50)
 		row += 1
 		# Modulation Type Dropdown
@@ -141,7 +142,7 @@ class GUI:
 		# Section Title
 		row = 0
 		coding_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
-		coding_frame.grid(row = row, column = 2, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		coding_frame.grid(row = row, column = 2, rowspan = 4, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		coding_label = Tk.Label(coding_frame,text="Coding", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 80)
 		row += 1
 		self.codetype = Tk.StringVar()
@@ -152,8 +153,8 @@ class GUI:
 
 		row += 1
 		self.codetype = Tk.StringVar()
-		self.codetype.set ("Fec")
-		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 15)
+		self.codetype.set ("FEC")
+		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2)
 		row += 1
 		self.codetype = Tk.StringVar()
 		self.codetype.set ("Interleaver")
@@ -172,56 +173,56 @@ class GUI:
 	def plotConstellationCurve(self):
 		row = 0
 		constellationCurveFrame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
-		constellationCurveFrame.grid(row = row, column = 20, rowspan = 10, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		constellationCurveFrame.grid(row = row, column = 20, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 
 		self.calculate = Tk.IntVar()
 		self.calculate.set(0)
-		calculate = Tk.Checkbutton(constellationCurveFrame, text="  Calculate", font=("Helvetica", 12), variable = self.calculate).grid(row = row, column = 2, columnspan = 2)
+		calculate = Tk.Checkbutton(constellationCurveFrame, text="  Calculate", font=("Helvetica", 12), variable = self.calculate).grid(row = row, column = 21, columnspan = 2)
 		row += 1
 
-		f = Figure(figsize=(5, 5), dpi=100)
+		f = Figure(figsize=(4, 4), dpi=100)
 		a = f.add_subplot(111)	
 		t = (-10, -5, 0, 5)
 		s = (-10, -5, 0, 5)
-		canvas = FigureCanvasTkAgg(f, root)
+		canvas = FigureCanvasTkAgg(f, constellationCurveFrame)
 		canvas.show()
-		canvas.get_tk_widget().grid(row=0,column = 6,rowspan = 10, columnspan = 10, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		canvas.get_tk_widget().grid(row=0,column = 6,rowspan = 5, columnspan = 10, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		a.plot(t, s,'bs')
 		a.set_title('Constellation Curve')
 
-		save = Tk.Button(root, text="Save", command = lambda: self.savePlot(f)).grid(row=row, column = 21, sticky=W)
+		save = Tk.Button(constellationCurveFrame, text="Save", command = lambda: self.savePlot(f)).grid(row=row, column = 21, columnspan = 2, sticky=(Tk.W, Tk.E))
 
 	def plotBERcurve(self):
-		row = 10
+		row = 7
 		berCurveFrame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
-		berCurveFrame.grid(row = row, column = 20, rowspan = 10, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		berCurveFrame.grid(row = row, column = 20, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 
 		self.calculate = Tk.IntVar()
 		self.calculate.set(0)
-		calculate = Tk.Checkbutton(berCurveFrame, text="  Calculate", font=("Helvetica", 12), variable = self.calculate).grid(row = row, column = 2, columnspan = 2)
+		calculate = Tk.Checkbutton(berCurveFrame, text="  Calculate", font=("Helvetica", 12), variable = self.calculate).grid(row = row, column = 21, columnspan = 2, sticky=(Tk.W, Tk.E))
 		row += 1
 
 		self.hold = Tk.IntVar()
 		self.hold.set(0)
-		hold = Tk.Checkbutton(berCurveFrame, text="          Hold", font=("Helvetica", 12), variable = self.hold).grid(row = row, column = 2, columnspan = 2)
-		row += 2
+		hold = Tk.Checkbutton(berCurveFrame, text="Hold", font=("Helvetica", 12), variable = self.hold).grid(row = row, column = 21, columnspan = 2, sticky=(Tk.W, Tk.E))
+		row += 1
 
-		f = Figure(figsize=(5, 5), dpi=100)
+		f = Figure(figsize=(4, 4), dpi=100)
 		a = f.add_subplot(111)
 		t = (1, 2, 3, 4)
 		s = (1, 2, 3, 4)
-		canvas = FigureCanvasTkAgg(f, root)
+		canvas = FigureCanvasTkAgg(f, berCurveFrame)
 		canvas.show()
-		canvas.get_tk_widget().grid(row=10,column = 6,rowspan = 10, columnspan = 10, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		canvas.get_tk_widget().grid(row=7,column = 6,rowspan = 5, columnspan = 10, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		a.plot(t, s)
 		a.set_title('BER Curve')
 		a.set_xlabel('Eb/Nq')
 		a.set_ylabel('BER')
 
-		save = Tk.Button(root, text="Save", command = lambda: self.savePlot(f)).grid(row=row, column = 21, sticky=W)
+		save = Tk.Button(berCurveFrame, text="Save", command = lambda: self.savePlot(f)).grid(row=row, column = 21, columnspan = 2, sticky=(Tk.W, Tk.E))
 		row+=1
 
-		clear = Tk.Button(root, text="Clear", command = lambda: self.clearPlot(f)).grid(row=row, column = 21, sticky=W)	
+		clear = Tk.Button(berCurveFrame, text="Clear", command = lambda: self.clearPlot(f)).grid(row=row, column = 21, columnspan = 2, sticky=(Tk.W, Tk.E))	
 
   
 
