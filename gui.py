@@ -1,6 +1,6 @@
 import matplotlib
-#from matplotlib.figure import Figure
-#from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import sys
 if sys.version_info[0] < 3:
     import Tkinter as Tk
