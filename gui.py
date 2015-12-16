@@ -136,6 +136,9 @@ class GUI:
 		self.codetype = Tk.StringVar()
 		self.codetype.set ("Line Coding")
 		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 15)
+
+
+
 		row += 1
 		self.codetype = Tk.StringVar()
 		self.codetype.set ("Fec")
