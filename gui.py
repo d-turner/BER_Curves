@@ -107,12 +107,8 @@ class GUI:
 		gaussian_checkbox = Tk.Checkbutton(channel_noise_frame, text="  Gaussian", font=("Helvetica", 12), variable = self.gaussian).grid(row = row, column = 2, columnspan = 2)
 		row += 1
 
-		# Burst Chekbox
-		self.gaussian = Tk.IntVar()
-		self.gaussian.set(0)
-		gaussian_checkbox = Tk.Checkbutton(channel_noise_frame, text="  Burst", font=("Helvetica", 12), variable = self.burst).grid(row = row, column = 2, columnspan = 2)
-		row += 1
-
+		# Burst Noise Input
+		burst_noise_label = Tk.Label(channel_noise_frame, text = "Burst", font=("Helvetica", 12)).grid(row = row, column = 2, columnspan = 2, pady = 15)
 		row += 1
 		self.burst_frequency = Tk.IntVar()
 		self.burst_frequency.set(0)
