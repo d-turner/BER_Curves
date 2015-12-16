@@ -37,6 +37,7 @@ class GUI:
 		# Variable required from Modulation
 		self.modtype = None # Modulation type variable
 		self.codetype = None # Line Coding variable
+		self.plotConstellationCurve()
 		self.setup_modulation_control()
 		self.plotBERcurve()
 		self.calculate = None
@@ -107,8 +108,12 @@ class GUI:
 		gaussian_checkbox = Tk.Checkbutton(channel_noise_frame, text="  Gaussian", font=("Helvetica", 12), variable = self.gaussian).grid(row = row, column = 2, columnspan = 2)
 		row += 1
 
-		# Burst Noise Input
-		burst_noise_label = Tk.Label(channel_noise_frame, text = "Burst", font=("Helvetica", 12)).grid(row = row, column = 2, columnspan = 2, pady = 15)
+		# Burst Chekbox
+		self.gaussian = Tk.IntVar()
+		self.gaussian.set(0)
+		gaussian_checkbox = Tk.Checkbutton(channel_noise_frame, text="  Burst", font=("Helvetica", 12), variable = self.burst).grid(row = row, column = 2, columnspan = 2)
+		row += 1
+
 		row += 1
 		self.burst_frequency = Tk.IntVar()
 		self.burst_frequency.set(0)
@@ -162,10 +167,32 @@ class GUI:
 		f.clf()
 		f.canvas.draw()
 		print "Plot Cleared"
+	
+	# Plots points, instead of division int 4 axes, the main axes range from ngative value to positive to account for all values.
+	def plotConstellationCurve(self):
+		row = 0
+		constellationCurveFrame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
+		constellationCurveFrame.grid(row = row, column = 20, rowspan = 10, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 
+		self.calculate = Tk.IntVar()
+		self.calculate.set(0)
+		calculate = Tk.Checkbutton(constellationCurveFrame, text="  Calculate", font=("Helvetica", 12), variable = self.calculate).grid(row = row, column = 2, columnspan = 2)
+		row += 1
+
+		f = Figure(figsize=(5, 5), dpi=100)
+		a = f.add_subplot(111)	
+		t = (-10, -5, 0, 5)
+		s = (-10, -5, 0, 5)
+		canvas = FigureCanvasTkAgg(f, root)
+		canvas.show()
+		canvas.get_tk_widget().grid(row=0,column = 6,rowspan = 10, columnspan = 10, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		a.plot(t, s,'bs')
+		a.set_title('Constellation Curve')
+
+		save = Tk.Button(root, text="Save", command = lambda: self.savePlot(f)).grid(row=row, column = 21, sticky=W)
 
 	def plotBERcurve(self):
-		row = 5
+		row = 10
 		berCurveFrame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
 		berCurveFrame.grid(row = row, column = 20, rowspan = 10, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 
@@ -185,7 +212,7 @@ class GUI:
 		s = (1, 2, 3, 4)
 		canvas = FigureCanvasTkAgg(f, root)
 		canvas.show()
-		canvas.get_tk_widget().grid(row=5,column = 6,rowspan = 10, columnspan = 10, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		canvas.get_tk_widget().grid(row=10,column = 6,rowspan = 10, columnspan = 10, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		a.plot(t, s)
 		a.set_title('BER Curve')
 		a.set_xlabel('Eb/Nq')
