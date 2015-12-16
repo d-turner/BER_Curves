@@ -67,37 +67,37 @@ class GUI:
 		# Bit Sequences		
 		row = 0
 		bit_sequence_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady=15, padx=10)
-		bit_sequence_frame.grid(row = 0, column = 0, rowspan = 3, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
-		bit_sequence_label = Tk.Label(bit_sequence_frame, text = "Bit Sequences", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 50)
+		bit_sequence_frame.grid(row = 0, column = 0, rowspan = 2, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		bit_sequence_label = Tk.Label(bit_sequence_frame, text = "Bit Sequences", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 60)
 		row += 1
 		# Sequence Selection
 		self.bit_sequence = Tk.StringVar()
 		self.bit_sequence.set("Default Sequence")
-		bit_sequence_menu = Tk.OptionMenu(bit_sequence_frame, self.bit_sequence, "Sequence 1", "Sequence 2", "Sequence 3", "Other").grid(row = row, columnspan = 2, pady = 15)
+		bit_sequence_menu = Tk.OptionMenu(bit_sequence_frame, self.bit_sequence, "Sequence 1", "Sequence 2", "Sequence 3", "Other").grid(row = row, columnspan = 2, pady = 15, padx = 10)
 
 	def setup_simulation_control(self):
-		row = 7
+		row = 4
+		simulation_control_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
+		simulation_control_frame.grid(row = row, column = 0, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		# Section Title
-		simulate_label = Tk.Label(root, text="Simulation Control").grid(row=row, column=0)
+		simulate_label = Tk.Label(simulation_control_frame, text="Simulation Control", font=("Helvetica", 14)).grid(row=row, column=0, columnspan = 2, pady = 15, padx = 50)
 		row += 1
 		# Error bits inupt
-		lb1 = Tk.Label(root, text="Error Bits").grid(row=row, sticky=W)
-		row += 1
+		lb1 = Tk.Label(simulation_control_frame, text="Error Bits").grid(row=row, column = 0)
 		self.error_bits = Tk.IntVar()
 		self.error_bits.set(0)
-		err_input = Tk.Entry(root, width=10, textvariable=self.error_bits).grid(row=row, sticky=W)
+		err_input = Tk.Entry(simulation_control_frame, width=10, textvariable=self.error_bits).grid(row=row, column = 1)
 		row += 1
 		# Noise Type selection box
 		self.snr = Tk.StringVar()
 		self.snr.set("Default SNR")
-		snr_menu = Tk.OptionMenu(root, self.snr, "one", "two", "three", "etc").grid(row=row, sticky=W)
-		row += 1
+		snr_menu = Tk.OptionMenu(simulation_control_frame, self.snr, "one", "two", "three", "etc").grid(row=row, column = 0, pady = 15)
 		# Button to run program
-		run = Tk.Button(root, text="Run", command=self.run_program).grid(row=row, sticky=W)
+		run = Tk.Button(simulation_control_frame, text="Run", command=self.run_program).grid(row=row, column = 1, pady = 15)
 
 	def	setup_channel_noise(self):
 		# Channel Noise
-		row = 5
+		row = 4
 		channel_noise_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
 		channel_noise_frame.grid(row = row, column = 2, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		channel_noise_label = Tk.Label(channel_noise_frame, text = "Channel Noise", font=("Helvetica", 14)).grid(row = row, column = 2, columnspan = 2, pady = 15, padx = 50)
@@ -108,12 +108,8 @@ class GUI:
 		gaussian_checkbox = Tk.Checkbutton(channel_noise_frame, text="  Gaussian", font=("Helvetica", 12), variable = self.gaussian).grid(row = row, column = 2, columnspan = 2)
 		row += 1
 
-		# Burst Chekbox
-		self.gaussian = Tk.IntVar()
-		self.gaussian.set(0)
-		gaussian_checkbox = Tk.Checkbutton(channel_noise_frame, text="  Burst", font=("Helvetica", 12), variable = self.burst).grid(row = row, column = 2, columnspan = 2)
-		row += 1
-
+		# Burst Noise Input
+		burst_noise_label = Tk.Label(channel_noise_frame, text = "Burst", font=("Helvetica", 12)).grid(row = row, column = 2, columnspan = 2, pady = 15)
 		row += 1
 		self.burst_frequency = Tk.IntVar()
 		self.burst_frequency.set(0)
@@ -127,21 +123,21 @@ class GUI:
 
 
 	def setup_modulation_control(self):
-		row = 3
+		row = 2
 		# Section Title
 		modulation_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
-		modulation_frame.grid(row = row, column = 0, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
-		modulation_label = Tk.Label(modulation_frame, text="Modulation", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 50)
+		modulation_frame.grid(row = row, column = 0, rowspan = 2, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		modulation_label = Tk.Label(modulation_frame, text="Modulation", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 70)
 		row += 1
 		# Modulation Type Dropdown
 		self.modtype = Tk.StringVar()
 		self.modtype.set ("Modulation type")
-		modtype_menu = Tk.OptionMenu(modulation_frame, self.modtype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 15)
+		modtype_menu = Tk.OptionMenu(modulation_frame, self.modtype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 15, padx = 10)
 		
 		# Section Title
 		row = 0
 		coding_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
-		coding_frame.grid(row = row, column = 2, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		coding_frame.grid(row = row, column = 2, rowspan = 4, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		coding_label = Tk.Label(coding_frame,text="Coding", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 80)
 		row += 1
 		self.codetype = Tk.StringVar()
