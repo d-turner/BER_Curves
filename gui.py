@@ -32,7 +32,7 @@ class GUI:
 		self.gaussian = None # Gaussian Noise Variable (Yes/No)
 		self.burst = None
 		self.burst_frequency = None # Burst Frequency Variable
-		self.burst_error = None # Burst Error Variable
+		self.burst_duration = None # Burst Error Variable
 		self.setup_channel_noise()
 		# Variable required from Modulation
 		self.modtype = None # Modulation type variable
@@ -43,7 +43,7 @@ class GUI:
 		self.setup_modulation_control()
 		self.calculate = None
 		self.hold = None 
-		options = { 
+		self.options = { 
 					'FrameSize': 1024,
 					'Polynomial Number': 5, 		# Options: 0 - 17
 					'Burst Frequency': 5,			# Value : 1 - 10
@@ -58,12 +58,14 @@ class GUI:
 	def run_program(self):
 		self.plotConstellationCurve()
 		self.plotBERcurve()
-		print self.error_bits.get()
-		#output1 = Generate(input)
-		#output2 = Modulate(input)
-		#output3 = Coding(input)
-		#output4 = Noise(input)
-		#output5 = SNR(i.get())
+		self.options['Polynomial Number'] = self.bit_sequence.get()
+		self.options['Burst Frequency'] = self.burst_frequency.get()
+		self.options['Duration'] = self.burst_duration.get()
+		self.options['Modulation Code'] = self.codetype.get()
+		self.options['Modulation Levels'] = self.modlevel.get()
+		self.options['Gaussian'] = self.gaussian.get()
+		self.options['Modulation Type'] = self.modtype.get()
+		self.options['FEC Enabled'] = self.fec.get()
 		
 	def setup_bit_sequence(self):
 		# Bit Sequences		
@@ -131,13 +133,13 @@ class GUI:
 		row += 1
 		self.burst_frequency = Tk.IntVar()
 		self.burst_frequency.set(0)
-		self.burst_error = Tk.IntVar()
-		self.burst_error.set(0)
+		self.burst_duration = Tk.IntVar()
+		self.burst_duration.set(0)
 		burst_frequency_label = Tk.Label(channel_noise_frame, text = "Frequency").grid(row = row, column = 2)
-		burst_error_label = Tk.Label(channel_noise_frame, text = "Duration").grid(row = row, column = 3)
+		burst_duration_label = Tk.Label(channel_noise_frame, text = "Duration").grid(row = row, column = 3)
 		row+=1
 		burst_frequency_input = Tk.Entry(channel_noise_frame, width=10, textvariable=self.burst_frequency).grid(row = row, column = 2)
-		burst_error_input = Tk.Entry(channel_noise_frame, width=10, textvariable=self.burst_error).grid(row = row, column = 3)
+		burst_duration_input = Tk.Entry(channel_noise_frame, width=10, textvariable=self.burst_duration).grid(row = row, column = 3)
 
 
 	def setup_modulation_control(self):

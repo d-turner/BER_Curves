@@ -32,19 +32,50 @@ class GUI:
 		self.gaussian = None # Gaussian Noise Variable (Yes/No)
 		self.burst = None
 		self.burst_frequency = None # Burst Frequency Variable
-		self.burst_error = None # Burst Error Variable
+		self.burst_duration = None # Burst Error Variable
 		self.setup_channel_noise()
 		# Variable required from Modulation
 		self.modtype = None # Modulation type variable
+		self.modlevel = None
 		self.codetype = None # Line Coding variable
+		self.fec = None
+		self.interleave = None
 		self.setup_modulation_control()
 		self.calculate = None
-		self.hold = None
+		self.hold = None 
+		self.options = { 
+					'FrameSize': 1024,
+					'Polynomial Number': 5, 		# Options: 0 - 17
+					'Burst Frequency': 5,			# Value : 1 - 10
+					'Duration': 2,					# In milleseconds 
+					'Modulation Code': 0,			# GRAY = 0 | LINEAR = 1
+					'Modulation Levels': 64,		# 0 <= value <=  1025
+					'Gaussian': True,
+					'Modulation Type': 1,			# PSK = 2 | QAM = 3
+					'FEC Enabled': True			# true | false
+					}
 
 	def run_program(self):
 		self.plotConstellationCurve()
 		self.plotBERcurve()
 		print self.error_bits.get()
+		print self.gaussian.get()
+		self.options['Polynomial Number'] = self.bit_sequence.get()
+		self.options['Burst Frequency'] = self.burst_frequency.get()
+		self.options['Duration'] = self.burst_duration.get()
+		self.options['Modulation Code'] = self.codetype.get()
+		self.options['Modulation Levels'] = self.modlevel.get()
+		self.options['Gaussian'] = self.gaussian.get()
+		self.options['Modulation Type'] = self.modtype.get()
+		self.options['FEC Enabled'] = self.fec.get()
+		print self.options['Polynomial Number']
+		print self.options['Burst Frequency']
+		print self.options['Duration']
+		print self.options['Modulation Code']
+		print self.options['Modulation Levels']
+		print self.options['Gaussian']
+		print self.options['Modulation Type']
+		print self.options['FEC Enabled']
 		#output1 = Generate(input)
 		#output2 = Modulate(input)
 		#output3 = Coding(input)
@@ -61,7 +92,24 @@ class GUI:
 		# Sequence Selection
 		self.bit_sequence = Tk.StringVar()
 		self.bit_sequence.set("Default Sequence")
-		bit_sequence_menu = Tk.OptionMenu(bit_sequence_frame, self.bit_sequence, "Sequence 1", "Sequence 2", "Sequence 3", "Other").grid(row = row, columnspan = 2, pady = 10, padx = 10)
+		bit_sequence_menu = Tk.OptionMenu(bit_sequence_frame, self.bit_sequence, "x^2 + x + 1",
+		    "x^3 + x^2 + 1",
+		    "x^4 + x^3 + 1",
+		    "x^5 + x^3 + 1",
+		    "x^6 + x^5 + 1",
+		    "x^7 + x^6 + 1",
+		    "x^8 + x^6 + x^5 + x^4 + 1",
+		    "x^9 + x^5 + 1",
+		    "x^10 + x^7 + 1",
+		    "x^11 + x^9 + 1",
+		    "x^12 + x^11 + x^10 + x^4 + 1",
+		    "x^13 + x^12 + x^11 + x^8 + 1",
+		    "x^14 + x^13 + x^12 + x^2 + 1",
+		    "x^15 + x^14 + 1",
+		    "x^16 + x^14 + x^13 + x^11 + 1",
+		    "x^17 + x^14 + 1",
+		    "x^18 + x^11 + 1",
+		    "x^19 + x^18 + x^17 + x^14 + 1").grid(row = row, columnspan = 2, pady = 10, padx = 10)
 
 	def setup_simulation_control(self):
 		row = 12
@@ -100,13 +148,13 @@ class GUI:
 		row += 1
 		self.burst_frequency = Tk.IntVar()
 		self.burst_frequency.set(0)
-		self.burst_error = Tk.IntVar()
-		self.burst_error.set(0)
+		self.burst_duration = Tk.IntVar()
+		self.burst_duration.set(0)
 		burst_frequency_label = Tk.Label(channel_noise_frame, text = "Frequency").grid(row = row, column = 2)
-		burst_error_label = Tk.Label(channel_noise_frame, text = "Error").grid(row = row, column = 3)
+		burst_duration_label = Tk.Label(channel_noise_frame, text = "Duration").grid(row = row, column = 3)
 		row+=1
 		burst_frequency_input = Tk.Entry(channel_noise_frame, width=10, textvariable=self.burst_frequency).grid(row = row, column = 2)
-		burst_error_input = Tk.Entry(channel_noise_frame, width=10, textvariable=self.burst_error).grid(row = row, column = 3)
+		burst_duration_input = Tk.Entry(channel_noise_frame, width=10, textvariable=self.burst_duration).grid(row = row, column = 3)
 
 
 	def setup_modulation_control(self):
@@ -116,31 +164,34 @@ class GUI:
 		modulation_frame.grid(row = row, column = 0, rowspan = 2, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		modulation_label = Tk.Label(modulation_frame, text="Modulation", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 10, padx = 70)
 		row += 1
+
 		# Modulation Type Dropdown
 		self.modtype = Tk.StringVar()
-		self.modtype.set ("Modulation type")
-		modtype_menu = Tk.OptionMenu(modulation_frame, self.modtype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 10, padx = 10)
+		self.modtype.set ("Type")
+		modtype_menu = Tk.OptionMenu(modulation_frame, self.modtype, "PSK", "QAM").grid(row=row, columnspan = 2, pady = 10, padx = 10)
+		row +=1
+
+		self.modlevel = Tk.StringVar()
+		self.modlevel.set ("Level")
+		modlevel_menu = Tk.OptionMenu(modulation_frame, self.modlevel, "32","64","128","512","1024").grid(row=row, columnspan = 2, pady = 10, padx = 10)
 		
 		# Section Title
-		row = 9
-		coding_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 10, padx=10)
-		coding_frame.grid(row = row, column = 0, rowspan = 3, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
-		coding_label = Tk.Label(coding_frame,text="Coding", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 10, padx = 80)
+		row = 10
+
 		row += 1
 		self.codetype = Tk.StringVar()
 		self.codetype.set ("Line Coding")
-		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 10)
-
-
+		codetype_menu = Tk.OptionMenu(modulation_frame, self.codetype, "GRAY", "LINEAR").grid(row=row, columnspan = 2, pady = 10)
 
 		row += 1
-		self.codetype = Tk.StringVar()
-		self.codetype.set ("FEC")
-		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2)
+		self.fec = Tk.IntVar()
+		self.fec.set(0)
+		fec = Tk.Checkbutton(modulation_frame, text="FEC", font=("Helvetica", 12), variable = self.fec).grid(row = row, column = 0, columnspan = 2)
+
 		row += 1
-		self.codetype = Tk.StringVar()
-		self.codetype.set ("Interleaver")
-		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 10)
+		self.interleave = Tk.IntVar()
+		self.interleave.set(0)
+		interleave = Tk.Checkbutton(modulation_frame, text="Interlaver", font=("Helvetica", 12), variable = self.interleave).grid(row = row, column = 0, columnspan = 2)
 
 	def savePlotBER(self, figure):
 		figure.savefig("BERplot.png")
@@ -168,8 +219,8 @@ class GUI:
 
 		f = Figure(figsize=(4.5, 4.5), dpi=100)
 		a = f.add_subplot(111)	
-		t = (-10, -5, 0, 5)
-		s = (-10, -5, 0, 5)
+		t = (-5, 5)
+		s = (-5, 5)
 		canvas = FigureCanvasTkAgg(f, constellationCurveFrame)
 		canvas.show()
 		canvas.get_tk_widget().grid(row=1,column = 0,rowspan = 6, columnspan = 6, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
