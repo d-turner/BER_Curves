@@ -68,11 +68,7 @@ class GUI:
 		row = 0
 		bit_sequence_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady=15, padx=10)
 		bit_sequence_frame.grid(row = 0, column = 0, rowspan = 2, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
-<<<<<<< HEAD
 		bit_sequence_label = Tk.Label(bit_sequence_frame, text = "Bit Sequences", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 60)
-=======
-		bit_sequence_label = Tk.Label(bit_sequence_frame, text = "Bit Sequences", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 50)
->>>>>>> eb1d9dced4776263363d0afbb780f38e3fcba635
 		row += 1
 		# Sequence Selection
 		self.bit_sequence = Tk.StringVar()
@@ -81,43 +77,22 @@ class GUI:
 
 	def setup_simulation_control(self):
 		row = 4
-<<<<<<< HEAD
-		simulation_control_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
-		simulation_control_frame.grid(row = row, column = 0, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
-		# Section Title
-		simulate_label = Tk.Label(simulation_control_frame, text="Simulation Control", font=("Helvetica", 14)).grid(row=row, column=0, columnspan = 2, pady = 15, padx = 50)
-		row += 1
-		# Error bits inupt
-		lb1 = Tk.Label(simulation_control_frame, text="Error Bits").grid(row=row, column = 0)
-		self.error_bits = Tk.IntVar()
-		self.error_bits.set(0)
-		err_input = Tk.Entry(simulation_control_frame, width=10, textvariable=self.error_bits).grid(row=row, column = 1)
-=======
 		sim_control_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady=15, padx=10)
-		sim_control_frame.grid(row = 4, column = 0, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		sim_control_frame.grid(row = 4, column = 0, rowspan = 4, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		simulate_label = Tk.Label(sim_control_frame, text="Simulation Control", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 50)
 		row += 1
 		# Error bits inupt
-		lb1 = Tk.Label(sim_control_frame, text="Error Bits").grid(row=row, pady=5)
-		row += 1
+		lb1 = Tk.Label(sim_control_frame, text="Error Bits").grid(row=row, column = 0)
 		self.error_bits = Tk.IntVar()
 		self.error_bits.set(0)
-		err_input = Tk.Entry(sim_control_frame, width=10, textvariable=self.error_bits).grid(row=row, pady=5)
->>>>>>> eb1d9dced4776263363d0afbb780f38e3fcba635
+		err_input = Tk.Entry(sim_control_frame, width=10, textvariable=self.error_bits).grid(row=row, column = 1)
 		row += 1
 		# Noise Type selection box
 		self.snr = Tk.StringVar()
 		self.snr.set("Default SNR")
-<<<<<<< HEAD
-		snr_menu = Tk.OptionMenu(simulation_control_frame, self.snr, "one", "two", "three", "etc").grid(row=row, column = 0, pady = 15)
+		snr_menu = Tk.OptionMenu(sim_control_frame, self.snr, "one", "two", "three", "etc").grid(row=row, column = 0, pady= 15)
 		# Button to run program
-		run = Tk.Button(simulation_control_frame, text="Run", command=self.run_program).grid(row=row, column = 1, pady = 15)
-=======
-		snr_menu = Tk.OptionMenu(sim_control_frame, self.snr, "one", "two", "three", "etc").grid(row=row, pady=5)
-		row += 1
-		# Button to run program
-		run = Tk.Button(sim_control_frame, text="Run", command=self.run_program).grid(row=row, pady=5)
->>>>>>> eb1d9dced4776263363d0afbb780f38e3fcba635
+		run = Tk.Button(sim_control_frame, text="Run", command=self.run_program).grid(row=row, column = 1, pady= 15)
 
 	def	setup_channel_noise(self):
 		# Channel Noise
@@ -151,11 +126,7 @@ class GUI:
 		# Section Title
 		modulation_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
 		modulation_frame.grid(row = row, column = 0, rowspan = 2, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
-<<<<<<< HEAD
 		modulation_label = Tk.Label(modulation_frame, text="Modulation", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 70)
-=======
-		modulation_label = Tk.Label(modulation_frame, text="Modulation", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 50)
->>>>>>> eb1d9dced4776263363d0afbb780f38e3fcba635
 		row += 1
 		# Modulation Type Dropdown
 		self.modtype = Tk.StringVar()

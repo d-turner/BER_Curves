@@ -78,27 +78,25 @@ class GUI:
 	def setup_simulation_control(self):
 		row = 4
 		sim_control_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady=15, padx=10)
-		sim_control_frame.grid(row = 4, column = 0, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		sim_control_frame.grid(row = 4, column = 0, rowspan = 4, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		simulate_label = Tk.Label(sim_control_frame, text="Simulation Control", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 50)
 		row += 1
 		# Error bits inupt
-		lb1 = Tk.Label(sim_control_frame, text="Error Bits").grid(row=row, pady=5)
-		row += 1
+		lb1 = Tk.Label(sim_control_frame, text="Error Bits").grid(row=row, column = 0)
 		self.error_bits = Tk.IntVar()
 		self.error_bits.set(0)
-		err_input = Tk.Entry(sim_control_frame, width=10, textvariable=self.error_bits).grid(row=row, pady=5)
+		err_input = Tk.Entry(sim_control_frame, width=10, textvariable=self.error_bits).grid(row=row, column = 1)
 		row += 1
 		# Noise Type selection box
 		self.snr = Tk.StringVar()
 		self.snr.set("Default SNR")
-		snr_menu = Tk.OptionMenu(sim_control_frame, self.snr, "one", "two", "three", "etc").grid(row=row, pady= 15)
-		row += 1
+		snr_menu = Tk.OptionMenu(sim_control_frame, self.snr, "one", "two", "three", "etc").grid(row=row, column = 0, pady= 15)
 		# Button to run program
-		run = Tk.Button(sim_control_frame, text="Run", command=self.run_program).grid(row=row, pady= 15)
+		run = Tk.Button(sim_control_frame, text="Run", command=self.run_program).grid(row=row, column = 1, pady= 15)
 
 	def	setup_channel_noise(self):
 		# Channel Noise
-		row = 4
+		row = 3
 		channel_noise_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
 		channel_noise_frame.grid(row = row, column = 2, rowspan = 5, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		channel_noise_label = Tk.Label(channel_noise_frame, text = "Channel Noise", font=("Helvetica", 14)).grid(row = row, column = 2, columnspan = 2, pady = 15, padx = 50)
@@ -138,7 +136,7 @@ class GUI:
 		# Section Title
 		row = 0
 		coding_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 15, padx=10)
-		coding_frame.grid(row = row, column = 2, rowspan = 4, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
+		coding_frame.grid(row = row, column = 2, rowspan = 3, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		coding_label = Tk.Label(coding_frame,text="Coding", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 15, padx = 80)
 		row += 1
 		self.codetype = Tk.StringVar()
