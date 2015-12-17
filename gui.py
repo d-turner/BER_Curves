@@ -37,9 +37,21 @@ class GUI:
 		# Variable required from Modulation
 		self.modtype = None # Modulation type variable
 		self.codetype = None # Line Coding variable
+		self.fec = None
+		self.interleave = None
 		self.setup_modulation_control()
 		self.calculate = None
-		self.hold = None
+		self.hold = None 
+		options = { 
+					'FrameSize': 1024,
+					'Polynomial Number': 5, 		# Options: 0 - 17
+					'Burst Frequency': 5,			# Value : 1 - 10
+					'Duration': 2,					# In milleseconds 
+					'Modulation Code': 0,			# GRAY = 0 | LINEAR = 1
+					'Modulation Levels': 64,		# 0 <= value <=  1025
+					'Modulation Type': 1,			# PSK = 2 | QAM = 3
+					'FEC Enabled': True			# true | false
+					}
 
 	def run_program(self):
 		self.plotConstellationCurve()
@@ -61,7 +73,24 @@ class GUI:
 		# Sequence Selection
 		self.bit_sequence = Tk.StringVar()
 		self.bit_sequence.set("Default Sequence")
-		bit_sequence_menu = Tk.OptionMenu(bit_sequence_frame, self.bit_sequence, "Sequence 1", "Sequence 2", "Sequence 3", "Other").grid(row = row, columnspan = 2, pady = 10, padx = 10)
+		bit_sequence_menu = Tk.OptionMenu(bit_sequence_frame, self.bit_sequence, "x^2 + x + 1",
+		    "x^3 + x^2 + 1",
+		    "x^4 + x^3 + 1",
+		    "x^5 + x^3 + 1",
+		    "x^6 + x^5 + 1",
+		    "x^7 + x^6 + 1",
+		    "x^8 + x^6 + x^5 + x^4 + 1",
+		    "x^9 + x^5 + 1",
+		    "x^10 + x^7 + 1",
+		    "x^11 + x^9 + 1",
+		    "x^12 + x^11 + x^10 + x^4 + 1",
+		    "x^13 + x^12 + x^11 + x^8 + 1",
+		    "x^14 + x^13 + x^12 + x^2 + 1",
+		    "x^15 + x^14 + 1",
+		    "x^16 + x^14 + x^13 + x^11 + 1",
+		    "x^17 + x^14 + 1",
+		    "x^18 + x^11 + 1",
+		    "x^19 + x^18 + x^17 + x^14 + 1").grid(row = row, columnspan = 2, pady = 10, padx = 10)
 
 	def setup_simulation_control(self):
 		row = 12
@@ -119,7 +148,7 @@ class GUI:
 		# Modulation Type Dropdown
 		self.modtype = Tk.StringVar()
 		self.modtype.set ("Modulation type")
-		modtype_menu = Tk.OptionMenu(modulation_frame, self.modtype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 10, padx = 10)
+		modtype_menu = Tk.OptionMenu(modulation_frame, self.modtype, "GRAY", "LINEAR").grid(row=row, columnspan = 2, pady = 10, padx = 10)
 		
 		# Section Title
 		row = 9
@@ -131,16 +160,15 @@ class GUI:
 		self.codetype.set ("Line Coding")
 		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 10)
 
-
+		row += 1
+		self.fec = Tk.IntVar()
+		self.fec.set(0)
+		fec = Tk.Checkbutton(coding_frame, text="FEC", font=("Helvetica", 12), variable = self.fec).grid(row = row, column = 0, columnspan = 2)
 
 		row += 1
-		self.codetype = Tk.StringVar()
-		self.codetype.set ("FEC")
-		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2)
-		row += 1
-		self.codetype = Tk.StringVar()
-		self.codetype.set ("Interleaver")
-		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 10)
+		self.interleave = Tk.IntVar()
+		self.interleave.set(0)
+		interleave = Tk.Checkbutton(coding_frame, text="Interlaver", font=("Helvetica", 12), variable = self.interleave).grid(row = row, column = 0, columnspan = 2)
 
 	def savePlotBER(self, figure):
 		figure.savefig("BERplot.png")
