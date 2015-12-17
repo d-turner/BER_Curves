@@ -36,6 +36,7 @@ class GUI:
 		self.setup_channel_noise()
 		# Variable required from Modulation
 		self.modtype = None # Modulation type variable
+		self.modlevel = None
 		self.codetype = None # Line Coding variable
 		self.fec = None
 		self.interleave = None
@@ -49,6 +50,7 @@ class GUI:
 					'Duration': 2,					# In milleseconds 
 					'Modulation Code': 0,			# GRAY = 0 | LINEAR = 1
 					'Modulation Levels': 64,		# 0 <= value <=  1025
+					'Gaussian': True,
 					'Modulation Type': 1,			# PSK = 2 | QAM = 3
 					'FEC Enabled': True			# true | false
 					}
@@ -132,7 +134,7 @@ class GUI:
 		self.burst_error = Tk.IntVar()
 		self.burst_error.set(0)
 		burst_frequency_label = Tk.Label(channel_noise_frame, text = "Frequency").grid(row = row, column = 2)
-		burst_error_label = Tk.Label(channel_noise_frame, text = "Error").grid(row = row, column = 3)
+		burst_error_label = Tk.Label(channel_noise_frame, text = "Duration").grid(row = row, column = 3)
 		row+=1
 		burst_frequency_input = Tk.Entry(channel_noise_frame, width=10, textvariable=self.burst_frequency).grid(row = row, column = 2)
 		burst_error_input = Tk.Entry(channel_noise_frame, width=10, textvariable=self.burst_error).grid(row = row, column = 3)
@@ -145,30 +147,34 @@ class GUI:
 		modulation_frame.grid(row = row, column = 0, rowspan = 2, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
 		modulation_label = Tk.Label(modulation_frame, text="Modulation", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 10, padx = 70)
 		row += 1
+
 		# Modulation Type Dropdown
 		self.modtype = Tk.StringVar()
-		self.modtype.set ("Modulation type")
-		modtype_menu = Tk.OptionMenu(modulation_frame, self.modtype, "GRAY", "LINEAR").grid(row=row, columnspan = 2, pady = 10, padx = 10)
+		self.modtype.set ("Type")
+		modtype_menu = Tk.OptionMenu(modulation_frame, self.modtype, "PSK", "QAM").grid(row=row, columnspan = 2, pady = 10, padx = 10)
+		row +=1
+
+		self.modlevel = Tk.StringVar()
+		self.modlevel.set ("Level")
+		modlevel_menu = Tk.OptionMenu(modulation_frame, self.modlevel, "32","64","128","512","1024").grid(row=row, columnspan = 2, pady = 10, padx = 10)
 		
 		# Section Title
-		row = 9
-		coding_frame = Tk.Frame(root, borderwidth=2, relief="raised", pady= 10, padx=10)
-		coding_frame.grid(row = row, column = 0, rowspan = 3, columnspan = 2, sticky = (Tk.N, Tk.W, Tk.E, Tk.S))
-		coding_label = Tk.Label(coding_frame,text="Coding", font=("Helvetica", 14)).grid(row = row, column = 0, columnspan = 2, pady = 10, padx = 80)
+		row = 10
+
 		row += 1
 		self.codetype = Tk.StringVar()
 		self.codetype.set ("Line Coding")
-		codetype_menu = Tk.OptionMenu(coding_frame, self.codetype, "x", "y", "z").grid(row=row, columnspan = 2, pady = 10)
+		codetype_menu = Tk.OptionMenu(modulation_frame, self.codetype, "GRAY", "LINEAR").grid(row=row, columnspan = 2, pady = 10)
 
 		row += 1
 		self.fec = Tk.IntVar()
 		self.fec.set(0)
-		fec = Tk.Checkbutton(coding_frame, text="FEC", font=("Helvetica", 12), variable = self.fec).grid(row = row, column = 0, columnspan = 2)
+		fec = Tk.Checkbutton(modulation_frame, text="FEC", font=("Helvetica", 12), variable = self.fec).grid(row = row, column = 0, columnspan = 2)
 
 		row += 1
 		self.interleave = Tk.IntVar()
 		self.interleave.set(0)
-		interleave = Tk.Checkbutton(coding_frame, text="Interlaver", font=("Helvetica", 12), variable = self.interleave).grid(row = row, column = 0, columnspan = 2)
+		interleave = Tk.Checkbutton(modulation_frame, text="Interlaver", font=("Helvetica", 12), variable = self.interleave).grid(row = row, column = 0, columnspan = 2)
 
 	def savePlotBER(self, figure):
 		figure.savefig("BERplot.png")
